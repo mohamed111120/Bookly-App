@@ -1,4 +1,5 @@
 import 'package:bookly_app/core/utils/app_router.dart';
+import 'package:bookly_app/features/home/domain/entities/book_entity.dart';
 import 'package:bookly_app/features/home/presentation/views/widgets/custom_book_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,20 +13,20 @@ import '../../../../../core/utils/styles.dart';
 import 'book_rating.dart';
 
 class BookListViewItem extends StatelessWidget {
-  const BookListViewItem({super.key});
-
+  const BookListViewItem({super.key, required this.book});
+  final BookEntity book;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        GoRouter.of(context).push(AppRouter.kBookDetailsView);
+        GoRouter.of(context).push(AppRouter.kBookDetailsView,extra: book );
       },
       child: SizedBox(
         height: 125,
         child: Row(
           children: [
-            CustomBookItem(),
-            SizedBox(
+            CustomBookItem(image: book.image ?? '',),
+            const SizedBox(
               width: 30,
             ),
             Expanded(
@@ -35,7 +36,7 @@ class BookListViewItem extends StatelessWidget {
                   SizedBox(
                     width: MediaQuery.of(context).size.height * .25,
                     child: Text(
-                      'Harry Potter and the Goblet of Fire',
+                      book.title??'',
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                       style: Styles.textStyle20.copyWith(
@@ -47,8 +48,11 @@ class BookListViewItem extends StatelessWidget {
                     height: 3,
                   ),
                   Text(
-                    'J.K. Rowling',
+                    book.authorName??'',
                     style: Styles.textStyle14,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+
                   ),
                   SizedBox(
                     height: 3,
@@ -57,13 +61,13 @@ class BookListViewItem extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          '19.99 €',
+                          '${book.price.toString()} \$',
                           style: Styles.textStyle20.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
-                      BookRating(),
+                      BookRating(rating: book.rating.toString() ),
                     ],
                   )
                 ],

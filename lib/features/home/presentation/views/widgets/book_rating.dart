@@ -1,3 +1,4 @@
+import 'package:bookly_app/features/home/domain/entities/book_entity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -6,8 +7,8 @@ import '../../../../../core/utils/styles.dart';
 
 class BookRating extends StatelessWidget {
 
-  const BookRating({super.key});
-
+  const BookRating({super.key, required this.rating});
+final String rating;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -20,7 +21,7 @@ class BookRating extends StatelessWidget {
         ),
         SizedBox(width: 6.3,),
         Text(
-          '4.8',
+          rating ,
           style: Styles.textStyle16,
         ),
         SizedBox(width: 9,),
